@@ -57,6 +57,7 @@ const CourseManage = ({ params }) => {
 				<li>
 					Instructors & TA should be able to manage the course queue
 				</li>
+				<li>To be discussed...</li>
 			</ul>
 		</main>
 	);

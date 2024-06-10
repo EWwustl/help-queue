@@ -21,12 +21,12 @@ const Nav = () => {
 			) : (
 				<>
 					<h1 className="text-xl font-bold">
-						Welcome, {session.user.name}
+						Welcome, {session.user.role}
 					</h1>
 					<div className="flex items-center space-x-4">
 						<span>{session.user.email}</span>
 						<button
-							onClick={() => signOut()}
+							onClick={() => signOut({ callbackUrl: "/" })}
 							className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
 						>
 							Sign out

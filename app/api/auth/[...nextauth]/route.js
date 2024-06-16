@@ -1,14 +1,11 @@
 import connectDB from "@/app/(lib)/mongoose";
-import NextAuth from "next-auth"
-import GitHubProvider from "next-auth/providers/github"
+import NextAuth from "next-auth";
+import GitHubProvider from "next-auth/providers/github";
 import User from "@/app/(models)/User";
 
-connectDB();
-
-// convert ADMIN_EMAILS into an array
 const adminEmails = process.env.ADMIN_EMAILS ? process.env.ADMIN_EMAILS.split(',') : [];
 
-const auth_options = {
+const authOptions = {
     providers: [
         GitHubProvider({
             clientId: process.env.GITHUB_ID,
@@ -17,38 +14,29 @@ const auth_options = {
     ],
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
-        async jwt({ token, user }) {
-            // check if the user exists in the database
-            if (user) {
-                let existingUser = await User.findOne({ email: user.email });
+        async session({ session }) {
+            await connectDB();
 
-                // if user does not exist, create a new user
-                if (!existingUser) {
-                    existingUser = await User.create({ name: user.name, email: user.email });
-                }
+            let existingUser = await User.findOne({ email: session.user.email });
 
-                // check if the user's email is in the admin list
-                if (adminEmails.includes(user.email)) {
-                    token.role = 'admin';
-                } else {
-                    token.role = 'user';
-                }
-
-                // attach the user id to the token
-                token.id = existingUser._id;
+            if (!existingUser) {
+                existingUser = await User.create({ name: session.user.name, email: session.user.email });
             }
 
-            return token;
-        },
-        async session({ session, token }) {
-            // assign user role and id based on the token
-            session.user.role = token.role;
-            session.user.id = token.id;
+            if (adminEmails.includes(session.user.email)) {
+                session.user.role = 'admin';
+            } else {
+                session.user.role = 'user';
+            }
+
+            session.user.id = existingUser._id;
+            session.user.name = existingUser.name
+
             return session;
         },
     },
 };
 
-const handler = NextAuth(auth_options);
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

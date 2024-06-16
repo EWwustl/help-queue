@@ -14,9 +14,9 @@ export async function POST(req) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const { email, name } = await req.json();
+        const { id, name } = await req.json();
 
-        const user = await User.findOneAndUpdate({ email }, { name }, { new: true });
+        const user = await User.findByIdAndUpdate(id, { name });
         if (!user) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }

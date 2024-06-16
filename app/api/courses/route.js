@@ -15,11 +15,7 @@ export async function GET(req) {
         }
 
         let courses;
-        if (token.role === 'student') {
-            courses = await Course.find({ isActive: true });
-        } else {
-            courses = await Course.find();
-        }
+        courses = await Course.find();
 
         return NextResponse.json({ courses });
     } catch (error) {

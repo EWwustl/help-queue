@@ -1,7 +1,7 @@
 'use client'
 
 import { useSession } from 'next-auth/react';
-import Courses from './(components)/Courses';
+import AdminCourseManagement from './(components)/AdminCourseManagement';
 
 export default function Home() {
   const { data: session } = useSession();
@@ -13,9 +13,7 @@ export default function Home() {
           <span className="text-2xl block">Please log in</span>
         </div>
       ) : (
-        <div className="text-2xl block">
-          <Courses />
-        </div>
+        <AdminCourseManagement />
       )}
     </main>
   );

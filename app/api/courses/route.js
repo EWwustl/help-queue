@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { getToken } from 'next-auth/jwt';
 import connectDB from '@/app/(lib)/mongoose';
 import Course from '@/app/(models)/Course';
 
@@ -7,19 +6,28 @@ export async function GET(req) {
     try {
         await connectDB();
 
-        const secret = process.env.NEXTAUTH_SECRET;
-        const token = await getToken({ req, secret });
-
-        if (!token) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-        }
-
         let courses;
         courses = await Course.find();
 
         return NextResponse.json({ courses });
     } catch (error) {
         console.error('Error fetching courses:', error);
+        return NextResponse.json({ message: "Error", error: error.message }, { status: 500 });
+    }
+}
+
+export async function POST(req) {
+    try {
+        await connectDB();
+
+        const { name } = await req.json();
+
+        const newCourse = new Course({ name });
+        await newCourse.save();
+
+        return NextResponse.json({ course: newCourse });
+    } catch (error) {
+        console.error('Error creating course:', error);
         return NextResponse.json({ message: "Error", error: error.message }, { status: 500 });
     }
 }

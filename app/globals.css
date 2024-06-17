@@ -15,14 +15,6 @@
     z-index: 1000;
 }
 
-.modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 4px;
-    max-width: 500px;
-    width: 100%;
-}
-
 .base-button {
     @apply text-white py-2 px-4 rounded;
 }

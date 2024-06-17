@@ -17,7 +17,7 @@ const Nav = () => {
 	};
 
 	return (
-		<div className="w-full bg-gray-800 text-white py-4 px-8 flex justify-between items-center fixed top-0 left-0 right-0">
+		<div className="w-full bg-slate-800 text-white py-4 px-8 flex justify-between items-center fixed top-0 left-0 right-0">
 			{!session ? (
 				<>
 					<h1 className="text-xl font-bold">Office Hour Queue</h1>

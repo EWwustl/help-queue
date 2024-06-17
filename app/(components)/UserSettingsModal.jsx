@@ -41,34 +41,37 @@ const UserSettingsModal = ({ isOpen, onRequestClose }) => {
 			isOpen={isOpen}
 			onRequestClose={onRequestClose}
 			contentLabel="User Settings"
-			className="modal-content"
+			className="bg-slate-700 text-white p-6 rounded-lg flex flex-col space-y-4"
 			overlayClassName="modal-overlay"
 		>
-			<h2 className="text-xl mb-4">Update Name</h2>
+			<h2 className="text-xl font-semibold self-center">User Settings</h2>
+
 			<input
 				type="text"
 				value={name}
 				onChange={handleNameChange}
-				className="mb-4 p-2 border rounded w-full"
+				className="p-2 bg-slate-900 rounded w-full "
 			/>
-			{error && <p className="text-red-500 mb-4">{error}</p>}
-			<div className="flex justify-between">
+
+			{error && <p className="text-red-500">{error}</p>}
+
+			<div className="flex space-x-4">
 				<button
 					onClick={handleNameUpdate}
-					className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+					className="bg-green-500 hover:bg-green-600 base-button"
 					disabled={loading}
 				>
 					{loading ? "Updating..." : "Update Name"}
 				</button>
 				<button
 					onClick={onRequestClose}
-					className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+					className=" bg-slate-500 hover:bg-slate-600 base-button"
 				>
 					Cancel
 				</button>
 				<button
 					onClick={() => signOut({ callbackUrl: "/" })}
-					className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+					className=" bg-red-500 hover:bg-red-600 base-button"
 				>
 					Sign out
 				</button>

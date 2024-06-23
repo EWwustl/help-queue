@@ -15,6 +15,9 @@ const CourseSchema = new mongoose.Schema({
     studentJoinCode: { type: String, unique: true, immutable: true, default: () => generateJoinCode() },
     taJoinCode: { type: String, unique: true, immutable: true, default: () => generateJoinCode() },
     instructorJoinCode: { type: String, unique: true, immutable: true, default: () => generateJoinCode() },
+    students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    tas: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    instructors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 });
 
 const Course = mongoose.models.Course || mongoose.model('Course', CourseSchema);

@@ -31,7 +31,12 @@ const CourseDetails = ({
 			case "courseSessions":
 				return <CourseSessions />;
 			case "addUsers":
-				return <AddUsers />;
+				return (
+					<AddUsers
+						id={selectedCourse._id}
+						fetchCourseDetails={fetchCourseDetails}
+					/>
+				);
 			case "manageUsers":
 				return <ManageUsers />;
 			default:

@@ -13,6 +13,7 @@ const AdminCourseManagement = () => {
 	}, []);
 
 	const fetchCourses = async () => {
+		setError("");
 		try {
 			const response = await axios.get("/api/courses");
 			setCourses(response.data.courses);
@@ -25,6 +26,7 @@ const AdminCourseManagement = () => {
 	};
 
 	const createCourse = async () => {
+		setError("");
 		try {
 			await axios.post("/api/courses", {
 				name: newCourseName,
@@ -40,6 +42,7 @@ const AdminCourseManagement = () => {
 	};
 
 	const fetchCourseDetails = async (id) => {
+		setError("");
 		try {
 			const response = await axios.get(`/api/courses/${id}`);
 			setSelectedCourse(response.data.course);

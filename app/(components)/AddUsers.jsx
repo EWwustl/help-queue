@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const AddUsers = ({ id, fetchCourseDetails }) => {
+const AddUsers = ({ courseID, fetchCourseDetails }) => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [role, setRole] = useState("student");
@@ -10,19 +10,25 @@ const AddUsers = ({ id, fetchCourseDetails }) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setMessage("");
+		setError("");
+
 		try {
-			const response = await axios.post(`/api/courses/${id}/addUsers`, {
-				name,
-				email,
-				role,
-			});
+			const response = await axios.post(
+				`/api/courses/${courseID}/users`,
+				{
+					name,
+					email,
+					role,
+				}
+			);
+
 			setMessage(response.data.message);
-			fetchCourseDetails(id);
+
+			fetchCourseDetails(courseID);
 		} catch (error) {
 			console.error("Error adding user: ", error);
-			if (error.response) {
-				setError(error.response.data.error);
-			}
+			setError(error.response?.data?.error || "Error adding user");
 		} finally {
 			setName("");
 			setEmail("");
@@ -31,8 +37,7 @@ const AddUsers = ({ id, fetchCourseDetails }) => {
 
 	return (
 		<div className="flex flex-col space-y-4 bg-slate-700 p-4 rounded">
-			<h2 className="text-xl self-center">Add User to Course</h2>
-			<form onSubmit={handleSubmit} className="flex flex-col space-y-2">
+			<form onSubmit={handleSubmit} className="flex flex-col space-y-4">
 				<div className="flex flex-col space-y-2">
 					<label htmlFor="name" className="text-white">
 						Name:
@@ -81,6 +86,7 @@ const AddUsers = ({ id, fetchCourseDetails }) => {
 					Add User
 				</button>
 			</form>
+
 			{message && <p className="text-green-500">{message}</p>}
 			{error && <p className="text-red-500">{error}</p>}
 		</div>

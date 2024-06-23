@@ -11,6 +11,7 @@ const CourseInfo = ({
 	const [error, setError] = useState("");
 
 	const updateCourse = async (id) => {
+		setError("");
 		try {
 			await axios.put(`/api/courses/${id}`, {
 				name: updatedCourseName,
@@ -18,21 +19,21 @@ const CourseInfo = ({
 			fetchCourseDetails(id);
 		} catch (error) {
 			console.error("Error updating course: ", error);
-			if (error.response) {
-				setError(error.response.data.error);
-			}
+			setError(error.response?.data?.error || "Error updating course");
 		} finally {
 			setUpdatedCourseName("");
 		}
 	};
 
 	const deleteCourse = async (id) => {
+		setError("");
 		try {
 			await axios.delete(`/api/courses/${id}`);
 			fetchCourses();
 			setSelectedCourse(null);
 		} catch (error) {
 			console.error("Error deleting course: ", error);
+			setError(error.response?.data?.error || "Error deleting course");
 		}
 	};
 

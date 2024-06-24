@@ -89,6 +89,11 @@ const AdminCourseManagement = () => {
 						<h2 className="text-2xl font-semibold self-center">
 							All Courses
 						</h2>
+
+						{courses.length === 0 && (
+							<p>Loading... (or no queues yet)</p>
+						)}
+
 						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
 							{courses.map((course) => (
 								<button

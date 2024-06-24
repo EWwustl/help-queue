@@ -88,6 +88,8 @@ const CourseQueues = ({ courseID }) => {
 
 			{error && <p className="text-red-500">{error}</p>}
 
+			{queues.length === 0 && <p>Loading... (or no queues yet)</p>}
+
 			{queues.map((queue) => (
 				<div key={queue._id} className="base-button">
 					<div className="flex justify-between items-center">

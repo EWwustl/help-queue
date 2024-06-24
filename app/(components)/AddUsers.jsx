@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import Papa from "papaparse";
 
@@ -10,6 +10,7 @@ const AddUsers = ({ courseID, fetchCourseDetails }) => {
 	const [error, setError] = useState("");
 	const [errors, setErrors] = useState([]);
 	const [csvFile, setCsvFile] = useState(null);
+	const csvFileRef = useRef(null);
 
 	const handleFileUpload = (e) => {
 		setCsvFile(e.target.files[0]);
@@ -25,7 +26,7 @@ const AddUsers = ({ courseID, fetchCourseDetails }) => {
 			);
 			setMessage(response.data.message);
 			if (response.data.errors) {
-				setErrors(response.data?.errors);
+				setErrors(response.data.errors);
 			}
 			fetchCourseDetails(courseID);
 		} catch (error) {
@@ -35,6 +36,7 @@ const AddUsers = ({ courseID, fetchCourseDetails }) => {
 			setName("");
 			setEmail("");
 			setCsvFile(null);
+			csvFileRef.current.value = "";
 		}
 	}
 
@@ -54,9 +56,7 @@ const AddUsers = ({ courseID, fetchCourseDetails }) => {
 							email: row.email,
 							role,
 						}))
-						.filter((user) => user.name && user.email); // filter out invalid entries;
-
-					console.log("Parsed Users:", users);
+						.filter((user) => user.name && user.email); // filter out invalid entries
 
 					await tryPostUsers(users);
 				},
@@ -67,6 +67,7 @@ const AddUsers = ({ courseID, fetchCourseDetails }) => {
 			});
 		} else {
 			const users = [{ name, email, role }];
+
 			await tryPostUsers(users);
 		}
 	};
@@ -130,6 +131,7 @@ const AddUsers = ({ courseID, fetchCourseDetails }) => {
 						accept=".csv"
 						onChange={handleFileUpload}
 						className="bg-slate-900 flex-grow base-button"
+						ref={csvFileRef}
 					/>
 				</div>
 

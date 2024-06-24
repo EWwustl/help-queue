@@ -4,8 +4,7 @@ import Course from '@/app/(models)/Course';
 
 export async function DELETE(req, { params }) {
     await connectDB();
-
-    const { courseID, userID } = params;
+    const { courseID, queueID } = params;
 
     try {
         const course = await Course.findById(courseID);
@@ -13,21 +12,19 @@ export async function DELETE(req, { params }) {
             return NextResponse.json({ error: 'Course not found' }, { status: 404 });
         }
 
-        course.users.pull({ user: userID });
+        course.queues.pull(queueID);
         await course.save();
 
-        return NextResponse.json({ message: 'User removed from course successfully' });
+        return NextResponse.json({ course });
     } catch (error) {
-        console.error('Error removing user:', error);
+        console.error('Error deleting queue:', error);
         return NextResponse.json({ message: 'Error', error: error.message }, { status: 500 });
     }
 }
 
 export async function PATCH(req, { params }) {
     await connectDB();
-
-    const { courseID, userID } = params;
-    const { role } = await req.json();
+    const { courseID, queueID } = params;
 
     try {
         const course = await Course.findById(courseID);
@@ -35,18 +32,18 @@ export async function PATCH(req, { params }) {
             return NextResponse.json({ error: 'Course not found' }, { status: 404 });
         }
 
-        const userInCourse = course.users.find(u => u.user.toString() === userID);
-        if (!userInCourse) {
-            return NextResponse.json({ error: 'User not found in course' }, { status: 404 });
+        const queue = course.queues.id(queueID);
+        if (!queue) {
+            return NextResponse.json({ error: 'Queue not found' }, { status: 404 });
         }
 
-        userInCourse.role = role; // update the role
-
+        queue.isActive = !queue.isActive;
+        queue.students = [];    // clear students in queue
         await course.save();
 
-        return NextResponse.json({ message: 'User role updated successfully' });
+        return NextResponse.json({ course });
     } catch (error) {
-        console.error('Error updating user role:', error);
+        console.error('Error toggling queue status:', error);
         return NextResponse.json({ message: 'Error', error: error.message }, { status: 500 });
     }
 }

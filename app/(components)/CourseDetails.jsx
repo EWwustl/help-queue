@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CourseInfo from "./CourseInfo";
-import CourseSessions from "./CourseSessions";
+import CourseQueues from "./CourseQueues";
 import AddUsers from "./AddUsers";
 import ManageUsers from "./ManageUsers";
 
@@ -28,8 +28,8 @@ const CourseDetails = ({
 						fetchCourseDetails={fetchCourseDetails}
 					/>
 				);
-			case "courseSessions":
-				return <CourseSessions />;
+			case "courseQueues":
+				return <CourseQueues courseID={selectedCourse._id} />;
 			case "addUsers":
 				return (
 					<AddUsers
@@ -71,15 +71,15 @@ const CourseDetails = ({
 					Course Info
 				</button>
 				<button
-					onClick={() => setSelectedOption("courseSessions")}
+					onClick={() => setSelectedOption("courseQueues")}
 					className={`base-button ${
-						selectedOption === "courseSessions"
+						selectedOption === "courseQueues"
 							? "bg-blue-500"
 							: "hover:bg-slate-900"
 					}`}
-					disabled={selectedOption === "courseSessions"}
+					disabled={selectedOption === "courseQueues"}
 				>
-					Sessions
+					Queues
 				</button>
 				<button
 					onClick={() => setSelectedOption("addUsers")}

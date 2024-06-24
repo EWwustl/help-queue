@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
 
+const QueueSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    isActive: { type: Boolean, default: true },
+    students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+});
+
 function generateJoinCode(length = 12) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let joinCode = '';
@@ -18,7 +24,8 @@ const CourseSchema = new mongoose.Schema({
     users: [{
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
         role: { type: String, enum: ['student', 'ta', 'instructor'], required: true }
-    }]
+    }],
+    queues: [QueueSchema],
 });
 
 const Course = mongoose.models.Course || mongoose.model('Course', CourseSchema);

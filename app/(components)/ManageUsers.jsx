@@ -7,7 +7,7 @@ const ManageUsers = ({ courseID }) => {
 
 	useEffect(() => {
 		fetchUsers();
-	}, []);
+	}, [courseID]);
 
 	const fetchUsers = async () => {
 		setError("");
@@ -48,6 +48,10 @@ const ManageUsers = ({ courseID }) => {
 			setError(error.response?.data?.error || "Error removing user");
 		}
 	};
+
+	if (users.length === 0) {
+		return <p>Loading... (or no users yet)</p>;
+	}
 
 	return (
 		<div className="flex flex-col space-y-4 bg-slate-700 base-button">

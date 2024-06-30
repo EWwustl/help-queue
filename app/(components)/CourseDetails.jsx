@@ -29,7 +29,12 @@ const CourseDetails = ({
 					/>
 				);
 			case "courseQueues":
-				return <CourseQueues courseID={selectedCourse._id} />;
+				return (
+					<CourseQueues
+						courseID={selectedCourse._id}
+						userRole="instructor"
+					/>
+				);
 			case "addUsers":
 				return (
 					<AddUsers
@@ -45,17 +50,17 @@ const CourseDetails = ({
 	};
 
 	return (
-		<div className="flex flex-col space-y-4 min-h-96">
-			<div className="flex items-center space-x-4">
+		<div className="flex flex-col space-y-4 min-h-96 min-w-[48rem]">
+			<div className="flex items-center justify-between">
+				<h2 className="text-2xl font-semibold">
+					Course Details - <b>{selectedCourse.name}</b>
+				</h2>
 				<button
 					onClick={goBack}
 					className="bg-slate-500 hover:bg-slate-600 base-button"
 				>
 					Go Back
 				</button>
-				<h2 className="text-2xl font-semibold">
-					Course Details - <b>{selectedCourse.name}</b>
-				</h2>
 			</div>
 
 			<div className="flex space-x-2">

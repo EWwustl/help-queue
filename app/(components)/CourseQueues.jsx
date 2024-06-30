@@ -1,11 +1,13 @@
-// components/CourseQueues.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import CreateQueue from "./CreateQueue";
+import StudentQueue from "./StudentQueue";
+import ManageQueue from "./ManageQueue";
 
-const CourseQueues = ({ courseID }) => {
+const CourseQueues = ({ courseID, userRole }) => {
 	const [queues, setQueues] = useState([]);
+	const [selectedQueue, setSelectedQueue] = useState(null);
 	const [error, setError] = useState("");
-	const [newQueueName, setNewQueueName] = useState("");
 
 	useEffect(() => {
 		fetchQueues();
@@ -13,6 +15,7 @@ const CourseQueues = ({ courseID }) => {
 
 	const fetchQueues = async () => {
 		setError("");
+
 		try {
 			const response = await axios.get(`/api/courses/${courseID}/queues`);
 			setQueues(response.data.queues);
@@ -22,26 +25,10 @@ const CourseQueues = ({ courseID }) => {
 		}
 	};
 
-	const addQueue = async () => {
+	const toggleQueueStatus = async (queueID) => {
 		setError("");
 		try {
-			await axios.post(`/api/courses/${courseID}/queues`, {
-				name: newQueueName,
-			});
-			fetchQueues();
-			setNewQueueName("");
-		} catch (error) {
-			console.error("Error adding queue:", error);
-			setError(error.response?.data?.error || "Error adding queue");
-		} finally {
-			setNewQueueName("");
-		}
-	};
-
-	const toggleQueueStatus = async (queueId) => {
-		setError("");
-		try {
-			await axios.patch(`/api/courses/${courseID}/queues/${queueId}`);
+			await axios.patch(`/api/courses/${courseID}/queues/${queueID}`);
 			fetchQueues();
 		} catch (error) {
 			console.error("Error toggling queue status:", error);
@@ -52,10 +39,11 @@ const CourseQueues = ({ courseID }) => {
 		}
 	};
 
-	const deleteQueue = async (queueId) => {
+	const deleteQueue = async (queueID) => {
 		setError("");
+
 		try {
-			await axios.delete(`/api/courses/${courseID}/queues/${queueId}`);
+			await axios.delete(`/api/courses/${courseID}/queues/${queueID}`);
 			fetchQueues();
 		} catch (error) {
 			console.error("Error deleting queue:", error);
@@ -63,43 +51,25 @@ const CourseQueues = ({ courseID }) => {
 		}
 	};
 
-	return (
-		<div className="flex flex-col space-y-4">
-			<div className="flex flex-col space-y-2 bg-slate-700 base-button">
-				<h2 className="text-2xl font-semibold self-center">
-					Create New Queue
-				</h2>
-				<div className="flex items-center space-x-2">
-					<input
-						type="text"
-						value={newQueueName}
-						onChange={(e) => setNewQueueName(e.target.value)}
-						placeholder="Queue Name"
-						className="bg-slate-900 flex-grow base-button"
-					/>
-					<button
-						onClick={addQueue}
-						className="bg-green-500 hover:bg-green-600 base-button"
-					>
-						Create
-					</button>
-				</div>
-			</div>
-
-			{error && <p className="text-red-500">{error}</p>}
-
-			{queues.length === 0 && <p>Loading... (or no queues yet)</p>}
-
-			{queues.map((queue) => (
-				<div key={queue._id} className="base-button">
-					<div className="flex justify-between items-center">
-						<span
-							className={`cursor-pointer text-center ${
-								!queue.isActive && "line-through"
-							}`}
+	const renderQueues = () => {
+		return queues.map((queue) => (
+			<div key={queue._id} className="base-button">
+				<div className="flex justify-between items-center">
+					{queue.isActive ? (
+						<button
+							className="text-2xl bg-blue-500 hover:bg-blue-600 base-button"
+							onClick={() => setSelectedQueue(queue)}
 						>
 							{queue.name}
+						</button>
+					) : (
+						<span className="text-2xl line-through base-button">
+							{queue.name}
 						</span>
+					)}
+
+					{userRole !== "student" && (
+						// TAs and intructors can set active status
 						<div className="flex space-x-2">
 							<button
 								onClick={() => toggleQueueStatus(queue._id)}
@@ -111,16 +81,67 @@ const CourseQueues = ({ courseID }) => {
 							>
 								{queue.isActive ? "Active" : "Inactive"}
 							</button>
-							<button
-								onClick={() => deleteQueue(queue._id)}
-								className="bg-red-500 hover:bg-red-600 base-button"
-							>
-								✖
-							</button>
+
+							{userRole === "instructor" && (
+								// intructors can delete queues
+								<button
+									onClick={() => deleteQueue(queue._id)}
+									className="bg-red-500 hover:bg-red-600 base-button"
+								>
+									✖
+								</button>
+							)}
 						</div>
-					</div>
+					)}
 				</div>
-			))}
+			</div>
+		));
+	};
+
+	const renderQueueComponent = () => {
+		if (userRole === "student") {
+			return (
+				<StudentQueue
+					fetchQueues={fetchQueues}
+					selectedQueue={selectedQueue}
+					setSelectedQueue={setSelectedQueue}
+				/>
+			);
+		} else {
+			return (
+				<ManageQueue
+					fetchQueues={fetchQueues}
+					selectedQueue={selectedQueue}
+					setSelectedQueue={setSelectedQueue}
+				/>
+			);
+		}
+	};
+
+	return (
+		<div className="flex flex-col space-y-4">
+			{error && <p className="text-red-500">{error}</p>}
+
+			{selectedQueue ? (
+				renderQueueComponent()
+			) : (
+				<>
+					{userRole === "instructor" && (
+						// instructors can create queues
+						<CreateQueue
+							courseID={courseID}
+							fetchQueues={fetchQueues}
+						/>
+					)}
+					<div className="max-h-72 overflow-y-auto space-y-2">
+						{queues.length === 0 ? (
+							<p>Loading... (or no queues yet)</p>
+						) : (
+							renderQueues()
+						)}
+					</div>
+				</>
+			)}
 		</div>
 	);
 };

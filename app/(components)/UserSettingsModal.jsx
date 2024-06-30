@@ -18,8 +18,7 @@ const UserSettingsModal = ({ isOpen, onRequestClose }) => {
 		setError("");
 
 		try {
-			const res = await axios.post("/api/updateUser", {
-				id: session.user.id,
+			const res = await axios.patch(`/api/users/${session.user.id}`, {
 				name,
 			});
 

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/app/(lib)/mongoose';
 import Course from '@/app/(models)/Course';
 
+// get all queues in specified course
 export async function GET(req, { params }) {
     await connectDB();
     const { courseID } = params;
@@ -19,6 +20,7 @@ export async function GET(req, { params }) {
     }
 }
 
+// create a new queue in specified course
 export async function POST(req, { params }) {
     await connectDB();
     const { courseID } = params;
@@ -31,8 +33,8 @@ export async function POST(req, { params }) {
         }
 
         // check for existing queue with the same name
-        const existingQueue = course.queues.find(queue => queue.name === name);
-        if (existingQueue) {
+        const queueInCourse = course.queues.find(queue => queue.name === name);
+        if (queueInCourse) {
             return NextResponse.json({ error: 'Queue with this name already exists' }, { status: 400 });
         }
 

@@ -13,7 +13,7 @@ const CourseInfo = ({
 	const updateCourse = async (id) => {
 		setError("");
 		try {
-			await axios.put(`/api/courses/${id}`, {
+			await axios.patch(`/api/courses/${id}`, {
 				name: updatedCourseName,
 			});
 			fetchCourseDetails(id);

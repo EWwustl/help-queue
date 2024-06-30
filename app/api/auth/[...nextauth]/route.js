@@ -5,6 +5,7 @@ import User from "@/app/(models)/User";
 
 const adminEmails = process.env.ADMIN_EMAILS ? process.env.ADMIN_EMAILS.split(',') : [];
 
+// GitHub authentication & session setup
 const authOptions = {
     providers: [
         GitHubProvider({

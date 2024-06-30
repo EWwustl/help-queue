@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/app/(lib)/mongoose';
 import Course from '@/app/(models)/Course';
 
+// get specified course
 export async function GET(req, { params }) {
     try {
         await connectDB();
@@ -20,6 +21,7 @@ export async function GET(req, { params }) {
     }
 }
 
+// delete specified course
 export async function DELETE(req, { params }) {
     try {
         await connectDB();
@@ -34,7 +36,8 @@ export async function DELETE(req, { params }) {
     }
 }
 
-export async function PUT(req, { params }) {
+// update speficied course's name
+export async function PATCH(req, { params }) {
     try {
         await connectDB();
 

@@ -1,19 +1,18 @@
-'use client'
+'use client';
 
 import { useSession } from 'next-auth/react';
 import AdminCourseManagement from './(components)/AdminCourseManagement';
+import UserCourseManagement from './(components)/UserCourseManagement';
 
 export default function Home() {
   const { data: session } = useSession();
 
-  const renderComponent = () => {
+  const renderCourseManagement = () => {
     switch (session?.user?.role) {
       case "admin":
-        return (
-          <AdminCourseManagement />
-        );
+        return <AdminCourseManagement />;
       case "user":
-        return <p>Placeholder for User Page</p>
+        return <UserCourseManagement userID={session.user.id} />;
       default:
         return null;
     }
@@ -27,7 +26,7 @@ export default function Home() {
           <span className="text-xl block">By logging into this site you agree you are an authorized user and agree to use cookies on this site.</span>
         </div>
       }
-      {renderComponent()}
+      {renderCourseManagement()}
     </main>
   );
 }

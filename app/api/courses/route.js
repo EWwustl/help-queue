@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/app/(lib)/mongoose';
 import Course from '@/app/(models)/Course';
 
+// get all courses
 export async function GET(req) {
     try {
         await connectDB();
@@ -16,6 +17,7 @@ export async function GET(req) {
     }
 }
 
+// create a new course with specified name
 export async function POST(req) {
     try {
         await connectDB();

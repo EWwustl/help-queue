@@ -3,6 +3,7 @@ import connectDB from '@/app/(lib)/mongoose';
 import Course from '@/app/(models)/Course';
 import User from '@/app/(models)/User';
 
+// get all users in specified course
 export async function GET(req, { params }) {
     await connectDB();
 
@@ -31,6 +32,7 @@ export async function GET(req, { params }) {
     }
 }
 
+// create/put user(s) in specified course
 export async function POST(req, { params }) {
     await connectDB();
 
@@ -64,9 +66,9 @@ export async function POST(req, { params }) {
                 }
 
                 // only add user if they are not in the course yet
-                const existingUser = course.users.find(u => u.user.toString() === user._id.toString());
-                if (existingUser) {
-                    errors.push(`User '${userData.email}' already has role '${existingUser.role}'.`);
+                const userInCourse = course.users.find(u => u.user.toString() === user._id.toString());
+                if (userInCourse) {
+                    errors.push(`User '${userData.email}' already has role '${userInCourse.role}'.`);
                 } else {
                     course.users.push({ user: user._id, role: userData.role });
                 }

@@ -54,7 +54,7 @@ const ManageUsers = ({ courseID }) => {
 	}
 
 	return (
-		<div className="flex flex-col space-y-4 bg-slate-700 base-button">
+		<div className="flex flex-col space-y-4 bg-slate-700 base-button max-h-96 overflow-y-auto">
 			{error && <p className="text-red-500">{error}</p>}
 
 			<table className="w-full text-white">

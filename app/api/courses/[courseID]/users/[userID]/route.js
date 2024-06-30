@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/app/(lib)/mongoose';
 import Course from '@/app/(models)/Course';
 
+// delete specified user from specified course
 export async function DELETE(req, { params }) {
     await connectDB();
 
@@ -23,6 +24,7 @@ export async function DELETE(req, { params }) {
     }
 }
 
+// update specified user's role in specified course
 export async function PATCH(req, { params }) {
     await connectDB();
 

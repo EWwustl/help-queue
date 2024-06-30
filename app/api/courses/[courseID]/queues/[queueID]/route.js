@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/app/(lib)/mongoose';
 import Course from '@/app/(models)/Course';
 
+// delete specified queue from specified course
 export async function DELETE(req, { params }) {
     await connectDB();
     const { courseID, queueID } = params;
@@ -22,6 +23,7 @@ export async function DELETE(req, { params }) {
     }
 }
 
+// update specified queue's active status in specified course
 export async function PATCH(req, { params }) {
     await connectDB();
     const { courseID, queueID } = params;

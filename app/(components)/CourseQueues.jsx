@@ -103,6 +103,7 @@ const CourseQueues = ({ courseID, userRole }) => {
 			return (
 				<StudentQueue
 					fetchQueues={fetchQueues}
+					courseID={courseID}
 					selectedQueue={selectedQueue}
 					setSelectedQueue={setSelectedQueue}
 				/>
@@ -111,6 +112,7 @@ const CourseQueues = ({ courseID, userRole }) => {
 			return (
 				<ManageQueue
 					fetchQueues={fetchQueues}
+					courseID={courseID}
 					selectedQueue={selectedQueue}
 					setSelectedQueue={setSelectedQueue}
 				/>

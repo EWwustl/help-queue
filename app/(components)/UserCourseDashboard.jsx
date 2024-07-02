@@ -3,9 +3,9 @@ import axios from "axios";
 import CourseDetails from "./CourseDetails";
 import Courses from "./Courses";
 import JoinCourse from "./JoinCourse";
-import CourseQueues from "./CourseQueues";
+import Queues from "./Queues";
 
-const UserCourseManagement = ({ userID }) => {
+const UserCourseDashboard = ({ userID }) => {
 	const [courses, setCourses] = useState([]);
 	const [selectedCourse, setSelectedCourse] = useState(null);
 	const [userRole, setUserRole] = useState("");
@@ -91,14 +91,18 @@ const UserCourseManagement = ({ userID }) => {
 								</h2>
 							</div>
 
-							<h2 className="text-2xl font-semibold self-center">
-								Queues
-							</h2>
-
-							<CourseQueues
+							<Queues
 								courseID={selectedCourse._id}
 								userRole={userRole}
 							/>
+
+							{userRole !== "student" && (
+								<p>
+									Click on the Active/Inactive button to
+									toggle active status of a queue. This will
+									clear all students in that queue.
+								</p>
+							)}
 						</div>
 					)}
 				</>
@@ -107,4 +111,4 @@ const UserCourseManagement = ({ userID }) => {
 	);
 };
 
-export default UserCourseManagement;
+export default UserCourseDashboard;

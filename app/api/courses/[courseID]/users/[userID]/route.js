@@ -42,7 +42,7 @@ export async function PATCH(req, { params }) {
             return NextResponse.json({ error: 'User not found in course' }, { status: 404 });
         }
 
-        userInCourse.role = role; // update the role
+        userInCourse.role = role;
 
         await course.save();
 

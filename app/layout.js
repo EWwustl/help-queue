@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <SessionWrapper>
-          <div className="flex flex-col h-screen max-h-screen">
+          <div className="flex flex-col">
             <Nav />
             <div className="flex-grow overflow-y-auto">{children}</div>
           </div>

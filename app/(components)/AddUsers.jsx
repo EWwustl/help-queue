@@ -148,7 +148,7 @@ const AddUsers = ({ courseID, fetchCourseDetails }) => {
 			{errors.length > 0 && (
 				<div className="text-red-500">
 					<h4>Errors:</h4>
-					<ul>
+					<ul className="max-h-20 overflow-y-auto">
 						{errors.map((err, index) => (
 							<li key={index}>{err}</li>
 						))}

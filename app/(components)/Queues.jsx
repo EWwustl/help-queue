@@ -4,7 +4,7 @@ import CreateQueue from "./CreateQueue";
 import StudentQueue from "./StudentQueue";
 import ManageQueue from "./ManageQueue";
 
-const CourseQueues = ({ courseID, userRole }) => {
+const Queues = ({ courseID, userRole }) => {
 	const [queues, setQueues] = useState([]);
 	const [selectedQueue, setSelectedQueue] = useState(null);
 	const [error, setError] = useState("");
@@ -27,6 +27,7 @@ const CourseQueues = ({ courseID, userRole }) => {
 
 	const toggleQueueStatus = async (queueID) => {
 		setError("");
+
 		try {
 			await axios.patch(`/api/courses/${courseID}/queues/${queueID}`);
 			fetchQueues();
@@ -108,16 +109,16 @@ const CourseQueues = ({ courseID, userRole }) => {
 					setSelectedQueue={setSelectedQueue}
 				/>
 			);
-		} else {
-			return (
-				<ManageQueue
-					fetchQueues={fetchQueues}
-					courseID={courseID}
-					selectedQueue={selectedQueue}
-					setSelectedQueue={setSelectedQueue}
-				/>
-			);
 		}
+
+		return (
+			<ManageQueue
+				fetchQueues={fetchQueues}
+				courseID={courseID}
+				selectedQueue={selectedQueue}
+				setSelectedQueue={setSelectedQueue}
+			/>
+		);
 	};
 
 	return (
@@ -148,4 +149,4 @@ const CourseQueues = ({ courseID, userRole }) => {
 	);
 };
 
-export default CourseQueues;
+export default Queues;

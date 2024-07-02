@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/app/(lib)/mongoose';
 import User from '@/app/(models)/User'
 
-// update specified user's role in specified course
+// update specified user's name
 export async function PATCH(req, { params }) {
     await connectDB();
 

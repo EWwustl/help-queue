@@ -14,15 +14,18 @@ const StudentQueue = ({
 	const [isInQueue, setIsInQueue] = useState(false);
 	const [error, setError] = useState("");
 	const userID = session.user.id;
+	const intervalInSeconds = 30; // poll every 30 seconds
 
 	useEffect(() => {
 		fetchStudents();
-		const interval = setInterval(fetchStudents, 10000); // poll every 10 seconds
+		const interval = setInterval(fetchStudents, intervalInSeconds * 1000);
 
 		return () => clearInterval(interval);
 	}, [selectedQueue]);
 
 	const fetchStudents = async () => {
+		setError("");
+
 		try {
 			const response = await axios.get(
 				`/api/courses/${courseID}/queues/${selectedQueue._id}/students`
@@ -41,6 +44,8 @@ const StudentQueue = ({
 	};
 
 	const joinQueue = async () => {
+		setError("");
+
 		try {
 			await axios.post(
 				`/api/courses/${courseID}/queues/${selectedQueue._id}/students`,
@@ -54,6 +59,8 @@ const StudentQueue = ({
 	};
 
 	const leaveQueue = async () => {
+		setError("");
+
 		try {
 			await axios.delete(
 				`/api/courses/${courseID}/queues/${selectedQueue._id}/students`,
@@ -77,14 +84,29 @@ const StudentQueue = ({
 				onClick={goBack}
 				className="bg-slate-500 hover:bg-slate-600 base-button"
 			>
-				Go Back to Queues
+				Go Back to All Queues
 			</button>
 
-			<h2 className="text-2xl">{selectedQueue.name}</h2>
+			<h2 className="text-2xl font-semibold self-center">
+				{selectedQueue.name}
+			</h2>
+
+			<p>
+				This page automatically polls the newest queue every{" "}
+				{intervalInSeconds} seconds.
+			</p>
 
 			<p>There are {students.length} student(s) in the queue.</p>
 
-			{position !== 0 && <p>You are in position {position}.</p>}
+			{position !== 0 && (
+				<p
+					className={`text-center ${
+						position === 1 ? "text-4xl font-bold" : ""
+					}`}
+				>
+					You are in position {position}.
+				</p>
+			)}
 
 			{isInQueue ? (
 				<button

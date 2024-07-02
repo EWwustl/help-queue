@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CourseInfo from "./CourseInfo";
-import CourseQueues from "./CourseQueues";
+import Queues from "./Queues";
 import AddUsers from "./AddUsers";
 import ManageUsers from "./ManageUsers";
 
@@ -30,7 +30,7 @@ const CourseDetails = ({
 				);
 			case "courseQueues":
 				return (
-					<CourseQueues
+					<Queues
 						courseID={selectedCourse._id}
 						userRole="instructor"
 					/>

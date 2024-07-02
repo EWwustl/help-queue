@@ -4,7 +4,7 @@ import CreateCourse from "./CreateCourse";
 import Courses from "./Courses";
 import CourseDetails from "./CourseDetails";
 
-const AdminCourseManagement = () => {
+const AdminCourseDashboard = () => {
 	const [courses, setCourses] = useState([]);
 	const [selectedCourse, setSelectedCourse] = useState(null);
 	const [error, setError] = useState("");
@@ -66,4 +66,4 @@ const AdminCourseManagement = () => {
 	);
 };
 
-export default AdminCourseManagement;
+export default AdminCourseDashboard;

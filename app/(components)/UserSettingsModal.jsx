@@ -18,18 +18,13 @@ const UserSettingsModal = ({ isOpen, onRequestClose }) => {
 		setError("");
 
 		try {
-			const res = await axios.patch(`/api/users/${session.user.id}`, {
-				name,
-			});
+			await axios.patch(`/api/users/${session.user.id}`, { name });
 
-			if (res.status === 200) {
-				session.user.name = name;
-				onRequestClose();
-			} else {
-				setError("Failed to update name.");
-			}
+			session.user.name = name;
+			onRequestClose();
 		} catch (error) {
-			setError("An error occurred.");
+			console.error("Error updating name: ", error);
+			setError(error.response?.data?.error || "Error updating name");
 		} finally {
 			setLoading(false);
 		}
@@ -43,7 +38,9 @@ const UserSettingsModal = ({ isOpen, onRequestClose }) => {
 			className="bg-slate-700 text-white p-6 rounded-lg flex flex-col space-y-4"
 			overlayClassName="modal-overlay"
 		>
-			<h2 className="text-xl font-semibold self-center">User Settings</h2>
+			<h2 className="text-2xl font-semibold self-center">
+				User Settings
+			</h2>
 
 			<input
 				type="text"
@@ -62,12 +59,14 @@ const UserSettingsModal = ({ isOpen, onRequestClose }) => {
 				>
 					{loading ? "Updating..." : "Update Name"}
 				</button>
+
 				<button
 					onClick={onRequestClose}
 					className=" bg-slate-500 hover:bg-slate-600 base-button"
 				>
 					Cancel
 				</button>
+
 				<button
 					onClick={() => signOut({ callbackUrl: "/" })}
 					className=" bg-red-500 hover:bg-red-600 base-button"

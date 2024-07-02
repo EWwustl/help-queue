@@ -18,6 +18,10 @@ export async function GET(req, { params }) {
             return NextResponse.json({ error: 'Queue not found' }, { status: 404 });
         }
 
+        if (!queue.isActive) {
+            return NextResponse.json({ error: 'Queue is not active. Please go back.' }, { status: 400 });
+        }
+
         return NextResponse.json({ students: queue.students });
     } catch (error) {
         console.error('Error fetching students:', error);
@@ -25,7 +29,7 @@ export async function GET(req, { params }) {
     }
 }
 
-// put specified students in specified queue
+// put specified student in specified queue
 export async function POST(req, { params }) {
     await connectDB();
     const { courseID, queueID } = params;
@@ -40,6 +44,10 @@ export async function POST(req, { params }) {
         const queue = course.queues.id(queueID);
         if (!queue) {
             return NextResponse.json({ error: 'Queue not found' }, { status: 404 });
+        }
+
+        if (!queue.isActive) {
+            return NextResponse.json({ error: 'Queue is not active. Please go back.' }, { status: 400 });
         }
 
         if (!queue.students.includes(userID)) {
@@ -69,6 +77,10 @@ export async function DELETE(req, { params }) {
         const queue = course.queues.id(queueID);
         if (!queue) {
             return NextResponse.json({ error: 'Queue not found' }, { status: 404 });
+        }
+
+        if (!queue.isActive) {
+            return NextResponse.json({ error: 'Queue is not active. Please go back.' }, { status: 400 });
         }
 
         queue.students.pull(userID);

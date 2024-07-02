@@ -60,8 +60,10 @@ export async function POST(req, { params }) {
 
         const userInCourse = course.users.find(u => u.user.toString() === userID);
         if (userInCourse) {
-            userInCourse.role = role; // update the role
+            // if user already in course, update their role
+            userInCourse.role = role;
         } else {
+            // else put user into course with corresponding role
             course.users.push({ user: userID, role });
         }
 

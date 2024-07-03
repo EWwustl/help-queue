@@ -131,4 +131,5 @@ nvm install --lts
 -   `/app/(components)/`: All the components that would be conditionally rendered on the main page based on user interactions
 -   `/app/(lib)/mongoose.js`: File to connect the app to MongoDB
 -   `/app/(models)/`: Files for declaring the data structures to use in MongoDB
--   `/app/api/`: Files to handle API calls for interacting with MongoDB
+-   `/app/api/auth/[...nextauth]/route.js`: File to handle API calls for user authentication (loggin in via GitHub)
+-   `/app/api/courses/` & `/app/api/users/`: Files to handle API calls for interacting with MongoDB

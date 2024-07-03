@@ -12,6 +12,7 @@ const CourseInfo = ({
 
 	const updateCourse = async (id) => {
 		setError("");
+
 		try {
 			await axios.patch(`/api/courses/${id}`, {
 				name: updatedCourseName,
@@ -27,6 +28,7 @@ const CourseInfo = ({
 
 	const deleteCourse = async (id) => {
 		setError("");
+
 		try {
 			await axios.delete(`/api/courses/${id}`);
 			fetchCourses();

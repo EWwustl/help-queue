@@ -21,6 +21,7 @@ const Nav = () => {
 			{!session ? (
 				<>
 					<h1 className="text-xl font-bold">Office Hour Queue</h1>
+
 					<button
 						onClick={() => signIn("github")}
 						className=" bg-blue-500 hover:bg-blue-600 base-button"
@@ -33,6 +34,7 @@ const Nav = () => {
 					<h1 className="text-xl font-bold">
 						Welcome, {session.user.role}
 					</h1>
+
 					<div className="flex items-center space-x-4">
 						<span>{session.user.name}</span>
 						<button

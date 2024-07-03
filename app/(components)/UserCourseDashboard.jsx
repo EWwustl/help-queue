@@ -16,6 +16,8 @@ const UserCourseDashboard = ({ userID }) => {
 	}, [userID]);
 
 	const fetchJoinedCourses = async () => {
+		setError("");
+
 		try {
 			const response = await axios.get(`/api/users/${userID}/courses`);
 			setCourses(response.data.courses);
@@ -28,6 +30,8 @@ const UserCourseDashboard = ({ userID }) => {
 	};
 
 	const fetchCourseDetails = async (id) => {
+		setError("");
+
 		try {
 			const response = await axios.get(`/api/courses/${id}`);
 			setSelectedCourse(response.data.course);

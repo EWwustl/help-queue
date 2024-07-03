@@ -123,3 +123,12 @@ nvm install --lts
     1. The courses dashboard should be displayed in the middle of the page
     2. Your name and email will be displayed in the upper right corner, replacing the sign-in button
     3. The email is a clickable button; click on it to open a panel for changing your name or logging out
+
+# File Structure
+
+-   `/app/layout.js`: The root layout of the app
+-   `/app/page.js`: The main page the user sees
+-   `/app/(components)/`: All the components that would be conditionally rendered on the main page based on user interactions
+-   `/app/(lib)/mongoose.js`: File to connect the app to MongoDB
+-   `/app/(models)/`: Files for declaring the data structures to use in MongoDB
+-   `/app/api/`: Files to handle API calls for interacting with MongoDB

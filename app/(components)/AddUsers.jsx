@@ -24,10 +24,12 @@ const AddUsers = ({ courseID, fetchCourseDetails }) => {
 					users,
 				}
 			);
+
 			setMessage(response.data.message);
 			if (response.data.errors) {
 				setErrors(response.data.errors);
 			}
+
 			fetchCourseDetails(courseID);
 		} catch (error) {
 			console.error("Error adding user(s): ", error);

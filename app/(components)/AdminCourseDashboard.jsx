@@ -10,10 +10,12 @@ const AdminCourseDashboard = () => {
 	const [error, setError] = useState("");
 
 	useEffect(() => {
-		fetchCourses();
+		fetchAllCourses();
 	}, []);
 
-	const fetchCourses = async () => {
+	const fetchAllCourses = async () => {
+		setError("");
+
 		try {
 			const response = await axios.get("/api/courses");
 			setCourses(response.data.courses);
@@ -24,6 +26,8 @@ const AdminCourseDashboard = () => {
 	};
 
 	const fetchCourseDetails = async (id) => {
+		setError("");
+
 		try {
 			const response = await axios.get(`/api/courses/${id}`);
 			setSelectedCourse(response.data.course);
@@ -40,10 +44,10 @@ const AdminCourseDashboard = () => {
 			{!selectedCourse ? (
 				<div className="flex flex-col space-y-4">
 					<h1 className="text-3xl font-bold self-center">
-						Admin Course Management
+						Admin Course Dashboard
 					</h1>
 
-					<CreateCourse fetchCourses={fetchCourses} />
+					<CreateCourse fetchCourses={fetchAllCourses} />
 
 					<Courses
 						courses={courses}
@@ -58,7 +62,7 @@ const AdminCourseDashboard = () => {
 				<CourseDetails
 					selectedCourse={selectedCourse}
 					setSelectedCourse={setSelectedCourse}
-					fetchCourses={fetchCourses}
+					fetchCourses={fetchAllCourses}
 					fetchCourseDetails={fetchCourseDetails}
 				/>
 			)}

@@ -75,6 +75,7 @@ const CourseDetails = ({
 				>
 					Course Info
 				</button>
+
 				<button
 					onClick={() => setSelectedOption("courseQueues")}
 					className={`base-button ${
@@ -86,6 +87,7 @@ const CourseDetails = ({
 				>
 					Queues
 				</button>
+
 				<button
 					onClick={() => setSelectedOption("addUsers")}
 					className={`base-button ${
@@ -97,6 +99,7 @@ const CourseDetails = ({
 				>
 					Add Users
 				</button>
+
 				<button
 					onClick={() => setSelectedOption("manageUsers")}
 					className={`base-button ${
